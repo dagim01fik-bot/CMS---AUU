@@ -1,0 +1,15 @@
+c:\Users\D\Desktop\CMS-AAU\backend\src\CmsAau.Application\bin\Debug\net8.0\CmsAau.Application.deps.json
+c:\Users\D\Desktop\CMS-AAU\backend\src\CmsAau.Application\bin\Debug\net8.0\CmsAau.Application.dll
+c:\Users\D\Desktop\CMS-AAU\backend\src\CmsAau.Application\bin\Debug\net8.0\CmsAau.Application.pdb
+c:\Users\D\Desktop\CMS-AAU\backend\src\CmsAau.Application\bin\Debug\net8.0\CmsAau.Domain.dll
+c:\Users\D\Desktop\CMS-AAU\backend\src\CmsAau.Application\bin\Debug\net8.0\CmsAau.Domain.pdb
+c:\Users\D\Desktop\CMS-AAU\backend\src\CmsAau.Application\obj\Debug\net8.0\CmsAau.Application.csproj.AssemblyReference.cache
+c:\Users\D\Desktop\CMS-AAU\backend\src\CmsAau.Application\obj\Debug\net8.0\CmsAau.Application.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\D\Desktop\CMS-AAU\backend\src\CmsAau.Application\obj\Debug\net8.0\CmsAau.Application.AssemblyInfoInputs.cache
+c:\Users\D\Desktop\CMS-AAU\backend\src\CmsAau.Application\obj\Debug\net8.0\CmsAau.Application.AssemblyInfo.cs
+c:\Users\D\Desktop\CMS-AAU\backend\src\CmsAau.Application\obj\Debug\net8.0\CmsAau.Application.csproj.CoreCompileInputs.cache
+c:\Users\D\Desktop\CMS-AAU\backend\src\CmsAau.Application\obj\Debug\net8.0\CmsAau.A.4EAF9AE9.Up2Date
+c:\Users\D\Desktop\CMS-AAU\backend\src\CmsAau.Application\obj\Debug\net8.0\CmsAau.Application.dll
+c:\Users\D\Desktop\CMS-AAU\backend\src\CmsAau.Application\obj\Debug\net8.0\refint\CmsAau.Application.dll
+c:\Users\D\Desktop\CMS-AAU\backend\src\CmsAau.Application\obj\Debug\net8.0\CmsAau.Application.pdb
+c:\Users\D\Desktop\CMS-AAU\backend\src\CmsAau.Application\obj\Debug\net8.0\ref\CmsAau.Application.dll

@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "CmsAau.Application/1.0.0": {
+        "dependencies": {
+          "CmsAau.Domain": "1.0.0"
+        },
+        "runtime": {
+          "CmsAau.Application.dll": {}
+        }
+      },
+      "CmsAau.Domain/1.0.0": {
+        "runtime": {
+          "CmsAau.Domain.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "CmsAau.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "CmsAau.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

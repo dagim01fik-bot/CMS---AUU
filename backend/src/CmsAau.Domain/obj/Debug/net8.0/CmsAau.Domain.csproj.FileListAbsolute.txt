@@ -1,0 +1,11 @@
+c:\Users\D\Desktop\CMS-AAU\backend\src\CmsAau.Domain\bin\Debug\net8.0\CmsAau.Domain.deps.json
+c:\Users\D\Desktop\CMS-AAU\backend\src\CmsAau.Domain\bin\Debug\net8.0\CmsAau.Domain.dll
+c:\Users\D\Desktop\CMS-AAU\backend\src\CmsAau.Domain\bin\Debug\net8.0\CmsAau.Domain.pdb
+c:\Users\D\Desktop\CMS-AAU\backend\src\CmsAau.Domain\obj\Debug\net8.0\CmsAau.Domain.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\D\Desktop\CMS-AAU\backend\src\CmsAau.Domain\obj\Debug\net8.0\CmsAau.Domain.AssemblyInfoInputs.cache
+c:\Users\D\Desktop\CMS-AAU\backend\src\CmsAau.Domain\obj\Debug\net8.0\CmsAau.Domain.AssemblyInfo.cs
+c:\Users\D\Desktop\CMS-AAU\backend\src\CmsAau.Domain\obj\Debug\net8.0\CmsAau.Domain.csproj.CoreCompileInputs.cache
+c:\Users\D\Desktop\CMS-AAU\backend\src\CmsAau.Domain\obj\Debug\net8.0\CmsAau.Domain.dll
+c:\Users\D\Desktop\CMS-AAU\backend\src\CmsAau.Domain\obj\Debug\net8.0\refint\CmsAau.Domain.dll
+c:\Users\D\Desktop\CMS-AAU\backend\src\CmsAau.Domain\obj\Debug\net8.0\CmsAau.Domain.pdb
+c:\Users\D\Desktop\CMS-AAU\backend\src\CmsAau.Domain\obj\Debug\net8.0\ref\CmsAau.Domain.dll
