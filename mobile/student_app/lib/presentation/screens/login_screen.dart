@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/services/auth_service.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/constants/app_constants.dart';
 import '../widgets/auth_flow_stepper.dart';
@@ -15,12 +16,14 @@ class LoginScreen extends ConsumerStatefulWidget {
 }
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
+  final _authService = AuthService();
   final _formKey = GlobalKey<FormState>();
   final _idController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
   int _activeStep = 2;
   bool _isSigningIn = false;
+  String? _errorMessage;
 
   @override
   void initState() {
@@ -40,12 +43,27 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       setState(() {
         _isSigningIn = true;
         _activeStep = 3;
+        _errorMessage = null;
       });
-      await Future<void>.delayed(const Duration(milliseconds: 320));
-      if (!mounted) {
-        return;
+
+      try {
+        await _authService.login(
+          studentId: _idController.text.trim(),
+          password: _passwordController.text,
+        );
+        if (!mounted) {
+          return;
+        }
+        context.go('/');
+      } catch (_) {
+        if (!mounted) {
+          return;
+        }
+        setState(() {
+          _isSigningIn = false;
+          _errorMessage = 'Unable to sign in. Check your student ID and password.';
+        });
       }
-      context.go('/');
     }
   }
 
@@ -148,6 +166,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         child: Text(_isSigningIn ? 'Confirming...' : 'Sign In'),
                       ),
                     ),
+                    if (_errorMessage != null) ...[
+                      const SizedBox(height: 16),
+                      Text(
+                        _errorMessage!,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: AppColors.errorRose,
+                              fontWeight: FontWeight.w600,
+                            ),
+                      ),
+                    ],
                   ],
                 ),
               ),

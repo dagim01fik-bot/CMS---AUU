@@ -1,7 +1,11 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
+import '../../core/services/student_id_service.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/theme_mode_provider.dart';
 
@@ -15,6 +19,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   static const _profileImageUrl =
       'https://lh3.googleusercontent.com/aida-public/AB6AXuANrVMjDHvptcDK7WkrGi5N6TK1dU5R6KpmKDvpLOr44t-M4Fw_YXqu0n0xeQJfQxpnzy57NSDlF99BsaKazh3CurXA5QmlJ5lBlZNqCP4AjQqje45tZ5RWqh6SryrCRdY2HEpe5G2EzAL_IPSp1oVZWAL5WHoLg8JyXXelejhLjfXzQMWYfhtsrUdRJ36hX83y5MiJ4fc840hcBnSrJJPNpq7XwpqHGpVnO-JPaRrqKbeydGD9inC6M9iBgGOXioVT2NFJdGIeb0c';
+  final _studentIdService = StudentIdService();
 
   int _currentIndex = 0;
   bool _showMoreClasses = false;
@@ -1569,76 +1574,127 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  void _showQrSheet() {
-    showModalBottomSheet<void>(
-      context: context,
-      backgroundColor: AppColors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
-      ),
-      builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.fromLTRB(24, 16, 24, 28),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 42,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: AppColors.outlineVariant,
-                  borderRadius: BorderRadius.circular(999),
-                ),
-              ),
-              const SizedBox(height: 22),
-              Text(
-                'Campus Pass QR',
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.w700,
-                    ),
-              ),
-              const SizedBox(height: 18),
-              Container(
-                padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  color: AppColors.white,
-                  borderRadius: BorderRadius.circular(22),
-                  border: Border.all(color: AppColors.borderSubtle),
-                ),
-                child: Container(
-                  width: 220,
-                  height: 220,
-                  decoration: BoxDecoration(
-                    color: AppColors.black,
-                    borderRadius: BorderRadius.circular(14),
+  Future<void> _showQrSheet() async {
+    try {
+      final qrData = await _studentIdService.fetchQr();
+      if (!mounted) {
+        return;
+      }
+
+      showModalBottomSheet<void>(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: AppColors.white,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+        ),
+        builder: (context) {
+          return SafeArea(
+            top: false,
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final sheetWidth = constraints.maxWidth;
+                final qrCardSize = math.min(sheetWidth - 76, 220.0);
+                final qrImageSize = math.max(qrCardSize - 40, 140.0);
+
+                return SingleChildScrollView(
+                  padding: EdgeInsets.fromLTRB(
+                    24,
+                    16,
+                    24,
+                    28 + MediaQuery.of(context).viewInsets.bottom,
                   ),
-                  child: const Center(
-                    child: Icon(Icons.qr_code_2_rounded, size: 160, color: AppColors.white),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        width: 42,
+                        height: 4,
+                        decoration: BoxDecoration(
+                          color: AppColors.outlineVariant,
+                          borderRadius: BorderRadius.circular(999),
+                        ),
+                      ),
+                      const SizedBox(height: 22),
+                      Text(
+                        'Campus Pass QR',
+                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                              fontWeight: FontWeight.w700,
+                            ),
+                      ),
+                      const SizedBox(height: 18),
+                      Container(
+                        padding: const EdgeInsets.all(14),
+                        decoration: BoxDecoration(
+                          color: AppColors.white,
+                          borderRadius: BorderRadius.circular(22),
+                          border: Border.all(color: AppColors.borderSubtle),
+                        ),
+                        child: Container(
+                          width: qrCardSize,
+                          height: qrCardSize,
+                          decoration: BoxDecoration(
+                            color: AppColors.white,
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                          child: Center(
+                            child: QrImageView(
+                              data: qrData.opaqueToken,
+                              size: qrImageSize,
+                              backgroundColor: AppColors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 18),
+                      Text(
+                        qrData.displayName,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.onSurface,
+                            ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        qrData.studentId,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: AppColors.outline,
+                              fontWeight: FontWeight.w600,
+                            ),
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        'Show this QR code at campus entry points or library checkout counters for identification.',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: AppColors.outline,
+                              height: 1.45,
+                            ),
+                      ),
+                      const SizedBox(height: 20),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          child: const Text('Done'),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ),
-              const SizedBox(height: 18),
-              Text(
-                'Show this QR code at campus entry points or library checkout counters for identification.',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: AppColors.outline,
-                      height: 1.45,
-                    ),
-              ),
-              const SizedBox(height: 20),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: const Text('Done'),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
+                );
+              },
+            ),
+          );
+        },
+      );
+    } catch (_) {
+      if (!mounted) {
+        return;
+      }
+      _showSnack('Sign in first and make sure the backend is available.');
+    }
   }
 
   void _handleQuickActionTap(String key) {
@@ -2797,38 +2853,6 @@ class _BarcodePainter extends CustomPainter {
         canvas.drawRect(Rect.fromLTWH(x, 0, width, size.height), paint);
       }
       x += width;
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
-
-class _DashedRoundedBorderPainter extends CustomPainter {
-  const _DashedRoundedBorderPainter();
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final rect = RRect.fromRectAndRadius(
-      Offset.zero & size,
-      const Radius.circular(18),
-    );
-    final paint = Paint()
-      ..color = const Color(0xFFB7CFFF)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.2;
-
-    final path = Path()..addRRect(rect);
-    const dashWidth = 6.0;
-    const dashGap = 4.0;
-
-    for (final metric in path.computeMetrics()) {
-      var distance = 0.0;
-      while (distance < metric.length) {
-        final next = (distance + dashWidth).clamp(0, metric.length);
-        canvas.drawPath(metric.extractPath(distance, next.toDouble()), paint);
-        distance += dashWidth + dashGap;
-      }
     }
   }
 

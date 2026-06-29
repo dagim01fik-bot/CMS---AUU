@@ -22,6 +22,10 @@ public class ApplicationDbContext : DbContext
     public DbSet<Payment> Payments { get; set; }
     public DbSet<Grade> Grades { get; set; }
     public DbSet<AuditLog> AuditLogs { get; set; }
+    public DbSet<SecurityOfficer> SecurityOfficers { get; set; }
+    public DbSet<SecurityCheckpointDevice> SecurityCheckpointDevices { get; set; }
+    public DbSet<StudentIdCredential> StudentIdCredentials { get; set; }
+    public DbSet<SecurityScanLog> SecurityScanLogs { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -50,6 +54,14 @@ public class ApplicationDbContext : DbContext
             .HasIndex(i => i.Email)
             .IsUnique();
 
+        modelBuilder.Entity<SecurityOfficer>()
+            .HasIndex(o => o.BadgeNumber)
+            .IsUnique();
+
+        modelBuilder.Entity<SecurityOfficer>()
+            .HasIndex(o => o.Email)
+            .IsUnique();
+
         modelBuilder.Entity<Course>()
             .HasIndex(c => c.Code)
             .IsUnique();
@@ -57,5 +69,41 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<Invoice>()
             .HasIndex(i => i.InvoiceNumber)
             .IsUnique();
+
+        modelBuilder.Entity<SecurityCheckpointDevice>()
+            .HasIndex(d => d.DeviceTag)
+            .IsUnique();
+
+        modelBuilder.Entity<SecurityCheckpointDevice>()
+            .HasIndex(d => d.InstallationId)
+            .IsUnique();
+
+        modelBuilder.Entity<StudentIdCredential>()
+            .HasIndex(c => c.OpaqueTokenHash)
+            .IsUnique();
+
+        modelBuilder.Entity<StudentIdCredential>()
+            .HasOne(c => c.Student)
+            .WithMany(s => s.StudentIdCredentials)
+            .HasForeignKey(c => c.StudentRecordId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<SecurityScanLog>()
+            .HasOne(l => l.Student)
+            .WithMany()
+            .HasForeignKey(l => l.StudentRecordId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        modelBuilder.Entity<SecurityScanLog>()
+            .HasOne(l => l.SecurityOfficer)
+            .WithMany(o => o.ScanLogs)
+            .HasForeignKey(l => l.SecurityOfficerId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<SecurityScanLog>()
+            .HasOne(l => l.SecurityCheckpointDevice)
+            .WithMany(d => d.ScanLogs)
+            .HasForeignKey(l => l.SecurityCheckpointDeviceId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

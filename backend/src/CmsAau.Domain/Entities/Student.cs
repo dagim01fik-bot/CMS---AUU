@@ -11,6 +11,7 @@ public class Student : User
     public Department Department { get; set; } = null!;
     public int YearOfStudy { get; set; }
     public string AcademicStatus { get; set; } = "Active";
+    public ICollection<StudentIdCredential> StudentIdCredentials { get; set; } = new List<StudentIdCredential>();
     public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
     public ICollection<Attendance> Attendances { get; set; } = new List<Attendance>();
     public ICollection<Grade> Grades { get; set; } = new List<Grade>();
